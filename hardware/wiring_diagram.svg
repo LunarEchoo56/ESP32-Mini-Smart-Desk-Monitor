@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="white"/>
+  <text x="60" y="55" font-family="Arial" font-size="32" font-weight="bold">ESP32 Mini Smart Desk Monitor — Reference Wiring</text>
+  <text x="60" y="90" font-family="Arial" font-size="17">Concept/reference diagram based on the pin assignments used by the firmware.</text>
+
+  <rect x="70" y="190" width="260" height="330" rx="18" fill="#e8f0fe" stroke="#222" stroke-width="3"/>
+  <text x="105" y="235" font-family="Arial" font-size="27" font-weight="bold">ESP32</text>
+  <text x="105" y="275" font-family="Arial" font-size="18">3V3</text>
+  <text x="105" y="335" font-family="Arial" font-size="18">GND</text>
+  <text x="105" y="395" font-family="Arial" font-size="18">GPIO 21 — SDA</text>
+  <text x="105" y="455" font-family="Arial" font-size="18">GPIO 22 — SCL</text>
+  <text x="105" y="505" font-family="Arial" font-size="18">GPIO 4 — DHT DATA</text>
+
+  <rect x="760" y="150" width="330" height="190" rx="18" fill="#eef7e9" stroke="#222" stroke-width="3"/>
+  <text x="800" y="195" font-family="Arial" font-size="25" font-weight="bold">SSD1306 OLED</text>
+  <text x="800" y="238" font-family="Arial" font-size="18">VCC → 3.3V</text>
+  <text x="800" y="275" font-family="Arial" font-size="18">GND → GND</text>
+  <text x="800" y="312" font-family="Arial" font-size="18">SDA → GPIO 21</text>
+  <text x="800" y="349" font-family="Arial" font-size="18">SCL → GPIO 22</text>
+
+  <rect x="760" y="410" width="330" height="150" rx="18" fill="#fff2df" stroke="#222" stroke-width="3"/>
+  <text x="800" y="455" font-family="Arial" font-size="25" font-weight="bold">DHT11 / DHT22</text>
+  <text x="800" y="495" font-family="Arial" font-size="18">VCC → 3.3V</text>
+  <text x="800" y="530" font-family="Arial" font-size="18">GND → GND</text>
+  <text x="800" y="565" font-family="Arial" font-size="18">DATA → GPIO 4</text>
+
+  <line x1="330" y1="275" x2="760" y2="238" stroke="#444" stroke-width="4"/>
+  <line x1="330" y1="335" x2="760" y2="275" stroke="#444" stroke-width="4"/>
+  <line x1="330" y1="395" x2="760" y2="312" stroke="#444" stroke-width="4"/>
+  <line x1="330" y1="455" x2="760" y2="349" stroke="#444" stroke-width="4"/>
+
+  <line x1="330" y1="275" x2="760" y2="495" stroke="#444" stroke-width="4"/>
+  <line x1="330" y1="335" x2="760" y2="530" stroke="#444" stroke-width="4"/>
+  <line x1="330" y1="505" x2="760" y2="565" stroke="#444" stroke-width="4"/>
+
+  <rect x="70" y="590" width="1020" height="70" rx="12" fill="#f5f5f5" stroke="#999"/>
+  <text x="95" y="620" font-family="Arial" font-size="16">Reference only: check the exact pin labels, OLED I2C address, sensor module wiring, and board revision before powering hardware.</text>
+  <text x="95" y="645" font-family="Arial" font-size="16">The current firmware uses OLED address 0x3C, SDA 21, SCL 22, and DHT DATA on GPIO 4.</text>
+</svg>
