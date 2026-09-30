@@ -1,0 +1,8 @@
+Item,Part,Qty,Notes,Source
+1,ESP32 development board,1,ESP32 DevKitC-style board; exact board revision may vary,https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32/esp32-devkitc/
+2,SSD1306 128x64 I2C OLED,1,0.96-inch class monochrome OLED; verify module address before assembly,https://learn.adafruit.com/monochrome-oled-breakouts/wiring-128x64-oleds
+3,DHT22 temperature/humidity sensor,1,Reference sensor; DHT11 can be substituted in firmware,https://www.adafruit.com/product/385
+4,4.7K-10K pull-up resistor,1,Only needed for a bare DHT22; many modules already include one,https://www.adafruit.com/product/385
+5,Jumper wires,~8,For prototype wiring,N/A
+6,USB cable,1,For ESP32 power/programming; connector depends on board revision,https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32/esp32-devkitc/user_guide.html
+7,Metal enclosure material,1 set,Handmade frame; dimensions should be measured from the actual prototype,N/A
