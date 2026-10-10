@@ -35,6 +35,9 @@ Drafted the Bill of Materials:
 
 Also started thinking about enclosure options. I want to do a custom handmade metal frame to give it a clean, industrial look rather than 3D printing a plastic box.
 
+*(Make sure to upload a photo of your parts to the hardware folder and replace this placeholder!)*
+![All my parts laid out before starting](hardware/parts_layout.jpg)
+
 ### Challenges
 
 - Had to figure out whether the DHT22 module I was ordering already includes a pull-up resistor or if I need an external one. Turns out the bare sensor needs one, but most breakout modules have it soldered on already. Decided to include a resistor in the BOM just in case.
@@ -74,6 +77,8 @@ Started writing the firmware in `esp32_smart_desk_monitor.ino`. Built it up in s
 
 5. **Main loop** — structured with non-blocking timing using `millis()` instead of `delay()`. Three independent timers: sensor reads every 2s, display refresh every 250ms, NTP resync every 6 hours. Also checks Wi-Fi status and auto-reconnects if it drops.
 
+![Wiring Diagram](hardware/wiring_diagram.svg)
+
 ### Challenges
 
 - The OLED wasn't displaying anything at first. Turned out my module was on address `0x3C` but I had initially hardcoded `0x3D`. Ran an I2C scanner sketch and fixed it.
@@ -108,6 +113,8 @@ Started physical assembly — transferring everything from the breadboard to the
 - Mounted the OLED in the front cutout
 - Positioned the DHT22 near a ventilation slot
 - Routed all wires cleanly inside the enclosure
+
+![Enclosure Concept Render](hardware/concept_render.svg)
 
 ### Challenges
 
@@ -162,6 +169,9 @@ After testing, focused on documentation:
   ```
 
 - Pushed everything to GitHub and did a final review of all files
+
+*(Make sure to upload a photo of your completed, powered-on device to the hardware folder and replace this placeholder!)*
+![Completed ESP32 Desk Monitor turned on](hardware/final_device.jpg)
 
 ### Challenges
 
