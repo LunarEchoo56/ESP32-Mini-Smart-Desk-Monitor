@@ -2,17 +2,19 @@
 
 A compact ESP32 desk display that combines a Wi-Fi-synchronized clock with live temperature and humidity readings on an OLED screen.
 
+## Hardware visuals
+
+| **Powered-on build photo** | **PCB layout (reference concept)** |
+|---|---|
+| ![Powered-on prototype; frame extracted from the project video](hardware/build_photo.webp) | ![Reference PCB carrier layout](hardware/pcb_layout.svg) |
+| Actual prototype photo from the attached project video. | Concept-only layout; it is **not a fabrication-ready PCB** and is not claimed to be installed in the photographed build. |
+| **Wiring schematic** | **3D enclosure model (reference)** |
+| ![ESP32, OLED, and DHT wiring schematic](hardware/schematic.svg) | ![OpenSCAD reference enclosure model preview](hardware/enclosure/model_preview.webp) |
+| Pin assignments match the firmware below. See also the [wiring diagram](hardware/wiring_diagram.svg). | Preview rendered from the editable OpenSCAD file; dimensions are generic and were not measured from the handmade metal frame. |
+
 ## Problem solved
 
 A normal desk clock only shows the time, while checking temperature and humidity usually requires a separate thermometer/hygrometer or opening an app. This project combines those everyday readings into one small, USB-powered device that can sit on a desk, workstation, gaming setup, or dashboard.
-
-## Prototype / concept visuals
-
-> **Note:** The visuals below are reference illustrations created for documentation. They are **not photographs of the physical prototype** and are not presented as measured CAD of the current handmade frame.
-
-![Concept render](hardware/concept_render.svg)
-
-![Reference wiring diagram](hardware/wiring_diagram.svg)
 
 ## Features
 
@@ -49,14 +51,16 @@ The complete BOM is available in [`hardware/BOM.csv`](hardware/BOM.csv).
 
 ## Hardware design files
 
-Reference CAD/design files are included under [`hardware/`](hardware/):
+- [`pcb_layout.svg`](hardware/pcb_layout.svg) — PCB carrier-layout concept; not fabrication-ready.
+- [`schematic.svg`](hardware/schematic.svg) — wiring schematic showing the firmware pin assignments.
+- [`wiring_diagram.svg`](hardware/wiring_diagram.svg) — existing editable/vector wiring diagram.
+- [`concept_render.svg`](hardware/concept_render.svg) — concept illustration, not a physical prototype photo.
+- [`desk_monitor_reference.scad`](hardware/enclosure/desk_monitor_reference.scad) — editable OpenSCAD enclosure reference.
+- [`model_preview.webp`](hardware/enclosure/model_preview.webp) — preview rendered from the OpenSCAD file.
+- [`reference_baseplate.stl`](hardware/enclosure/reference_baseplate.stl) — simple printable reference baseplate.
+- [`build_photo.webp`](hardware/build_photo.webp) — powered-on build photo extracted from the attached project video.
 
-- [`desk_monitor_reference.scad`](hardware/enclosure/desk_monitor_reference.scad) — editable OpenSCAD enclosure reference
-- [`reference_baseplate.stl`](hardware/enclosure/reference_baseplate.stl) — simple printable reference baseplate
-- [`wiring_diagram.svg`](hardware/wiring_diagram.svg) — editable/vector wiring diagram
-- [`concept_render.svg`](hardware/concept_render.svg) — documentation concept render
-
-The enclosure files are deliberately labeled **reference** because the exact dimensions of the handmade metal frame were not measured from the physical prototype.
+The OpenSCAD/STL enclosure is a generic reference model. The handmade metal frame in the build photo was not measured to produce this model. The PCB image is a visual layout concept only; there is no claim that this PCB was manufactured or used in the photographed prototype.
 
 ## Wiring
 
@@ -151,10 +155,14 @@ to:
 │   └── esp32_smart_desk_monitor.ino
 ├── hardware/
 │   ├── BOM.csv
-│   ├── concept_render.svg
+│   ├── build_photo.webp
+│   ├── pcb_layout.svg
+│   ├── schematic.svg
 │   ├── wiring_diagram.svg
+│   ├── concept_render.svg
 │   └── enclosure/
 │       ├── desk_monitor_reference.scad
+│       ├── model_preview.webp
 │       └── reference_baseplate.stl
 └── esp32-mini-smart-desk-monitor.zip
 ```
@@ -172,7 +180,7 @@ to:
 
 ## Status
 
-Latest prototype. The enclosure and additional features are still being improved.
+The powered-on prototype is shown in the build photo. The enclosure and additional features are still being improved. The PCB layout and enclosure render in this repository are explicitly reference concepts, not verified fabrication files.
 
 ## License
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<rect width="1200" height="760" fill="#fff"/>
+<text x="55" y="60" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#17233a">ESP32 Mini Smart Desk Monitor</text>
+<text x="55" y="97" font-family="Arial,sans-serif" font-size="20" fill="#56657a">Wiring schematic • firmware pin assignments</text>
+<rect x="70" y="180" width="345" height="410" rx="18" fill="#eaf1fb" stroke="#315b92" stroke-width="3"/>
+<text x="105" y="222" font-family="Arial,sans-serif" font-size="28" font-weight="700" fill="#1d426b">ESP32 Dev Board</text>
+<text x="105" y="261" font-family="Arial,sans-serif" font-size="18" fill="#35455e">USB supplies board power</text>
+<g font-family="Arial,sans-serif" font-size="20" fill="#1e2f45"><text x="110" y="326">3V3</text><text x="110" y="380">GND</text><text x="110" y="444">GPIO 21 / SDA</text><text x="110" y="492">GPIO 22 / SCL</text><text x="110" y="548">GPIO 4 / DATA</text></g>
+<g fill="#fff" stroke="#315b92" stroke-width="3"><circle cx="390" cy="320" r="7"/><circle cx="390" cy="374" r="7"/><circle cx="390" cy="438" r="7"/><circle cx="390" cy="486" r="7"/><circle cx="390" cy="542" r="7"/></g>
+<rect x="760" y="175" width="350" height="210" rx="18" fill="#eef8eb" stroke="#508746" stroke-width="3"/>
+<text x="800" y="217" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#2d5c29">SSD1306 OLED</text>
+<g font-family="Arial,sans-serif" font-size="20" fill="#244421"><text x="800" y="262">VCC — 3.3V</text><text x="800" y="299">GND — common ground</text><text x="800" y="336">SDA — GPIO 21</text><text x="800" y="373">SCL — GPIO 22</text></g>
+<rect x="760" y="425" width="350" height="165" rx="18" fill="#fff3e6" stroke="#bd7944" stroke-width="3"/>
+<text x="800" y="468" font-family="Arial,sans-serif" font-size="27" font-weight="700" fill="#81481c">DHT11 / DHT22</text>
+<g font-family="Arial,sans-serif" font-size="20" fill="#613617"><text x="800" y="511">VCC — 3.3V</text><text x="800" y="547">GND — common ground</text><text x="800" y="581">DATA — GPIO 4</text></g>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+<path d="M397 320 H585 V259 H760" stroke="#d84c4c"/><path d="M397 374 H620 V296 H760" stroke="#252b34"/>
+<path d="M397 438 H650 V333 H760" stroke="#2878c8"/><path d="M397 486 H682 V370 H760" stroke="#d4a52e"/>
+<path d="M397 320 H548 V500 H760" stroke="#d84c4c" stroke-dasharray="8 8"/><path d="M397 374 H568 V536 H760" stroke="#252b34" stroke-dasharray="8 8"/>
+<path d="M397 542 H700 V570 H760" stroke="#8b5cc7"/>
+</g>
+<rect x="70" y="628" width="1040" height="82" rx="12" fill="#f5f7fa" stroke="#b7c1ce" stroke-width="2"/>
+<text x="95" y="660" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#25344b">Notes</text>
+<text x="95" y="688" font-family="Arial,sans-serif" font-size="17" fill="#25344b">OLED I²C address: 0x3C. DHT DATA: GPIO 4. Use a common ground; verify module pin order before connecting.</text>
+<text x="95" y="733" font-family="Arial,sans-serif" font-size="15" fill="#657387">Reference wiring based on firmware; check exact parts and board revision before powering up.</text>
+</svg>

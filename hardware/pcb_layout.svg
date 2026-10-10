@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+<rect width="1200" height="760" fill="#f5f7fb"/>
+<text x="55" y="58" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#14233b">ESP32 Mini Smart Desk Monitor</text>
+<text x="55" y="94" font-family="Arial,sans-serif" font-size="20" fill="#46566d">PCB carrier layout — reference concept</text>
+<rect x="55" y="130" width="1090" height="500" rx="22" fill="#17664e" stroke="#0b392c" stroke-width="8"/>
+<g fill="#e7e8eb" stroke="#092b21" stroke-width="5"><circle cx="92" cy="167" r="13"/><circle cx="1108" cy="167" r="13"/><circle cx="92" cy="592" r="13"/><circle cx="1108" cy="592" r="13"/></g>
+<rect x="345" y="214" width="420" height="300" rx="16" fill="#17314b" stroke="#c8d6e5" stroke-width="4" stroke-dasharray="9 7"/>
+<rect x="445" y="268" width="220" height="125" rx="10" fill="#24374a" stroke="#9fb1c2" stroke-width="3"/>
+<text x="555" y="315" text-anchor="middle" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#f8fafc">ESP32</text>
+<text x="555" y="349" text-anchor="middle" font-family="Arial,sans-serif" font-size="19" fill="#d7e2ed">Dev board module</text>
+<text x="555" y="374" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#d7e2ed">Footprint varies by board revision</text>
+<g fill="#e6e8eb" stroke="#0d2b22" stroke-width="3">
+<circle cx="365" cy="245" r="8"/><circle cx="365" cy="276" r="8"/><circle cx="365" cy="307" r="8"/><circle cx="365" cy="338" r="8"/><circle cx="365" cy="369" r="8"/><circle cx="365" cy="400" r="8"/><circle cx="365" cy="431" r="8"/><circle cx="365" cy="462" r="8"/><circle cx="365" cy="493" r="8"/>
+<circle cx="745" cy="245" r="8"/><circle cx="745" cy="276" r="8"/><circle cx="745" cy="307" r="8"/><circle cx="745" cy="338" r="8"/><circle cx="745" cy="369" r="8"/><circle cx="745" cy="400" r="8"/><circle cx="745" cy="431" r="8"/><circle cx="745" cy="462" r="8"/><circle cx="745" cy="493" r="8"/>
+</g>
+<rect x="815" y="235" width="250" height="135" rx="10" fill="#104936" stroke="#d0e4d8" stroke-width="3"/>
+<text x="940" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="23" font-weight="700" fill="#fff">J2 • OLED I²C</text>
+<text x="840" y="301" font-family="Arial,sans-serif" font-size="18" fill="#fff">VCC  ·  GND</text><text x="840" y="329" font-family="Arial,sans-serif" font-size="18" fill="#fff">SDA  ·  SCL</text>
+<g fill="#e6e8eb" stroke="#0d2b22" stroke-width="2"><circle cx="840" cy="349" r="6"/><circle cx="865" cy="349" r="6"/><circle cx="890" cy="349" r="6"/><circle cx="915" cy="349" r="6"/></g>
+<rect x="815" y="405" width="250" height="105" rx="10" fill="#104936" stroke="#d0e4d8" stroke-width="3"/>
+<text x="940" y="438" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#fff">J3 • DHT sensor</text>
+<text x="840" y="471" font-family="Arial,sans-serif" font-size="18" fill="#fff">3V3  ·  GND  ·  DATA</text>
+<g fill="#e6e8eb" stroke="#0d2b22" stroke-width="2"><circle cx="850" cy="491" r="6"/><circle cx="875" cy="491" r="6"/><circle cx="900" cy="491" r="6"/></g>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+<path d="M745 276 H785 V300 H815" stroke="#ed5b56"/><path d="M745 307 H790 V314 H815" stroke="#252b31"/><path d="M745 338 H790 V340 H815" stroke="#3fa7ff"/><path d="M745 369 H800 V356 H815" stroke="#f2cb54"/><path d="M745 400 H780 V456 H815" stroke="#ed5b56"/><path d="M745 431 H790 V476 H815" stroke="#252b31"/><path d="M745 462 H800 V491 H815" stroke="#8d7cff"/>
+</g>
+<text x="115" y="249" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#fff">USB power</text>
+<rect x="115" y="270" width="170" height="65" rx="9" fill="#104936" stroke="#d0e4d8" stroke-width="3"/>
+<text x="200" y="310" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" fill="#fff">5V from USB</text>
+<path d="M285 302 H322 V462 H365" fill="none" stroke="#ed5b56" stroke-width="5" stroke-linecap="round"/>
+<text x="115" y="384" font-family="Arial,sans-serif" font-size="16" fill="#e0eee7">Signals follow the</text><text x="115" y="410" font-family="Arial,sans-serif" font-size="16" fill="#e0eee7">current firmware pins.</text>
+<rect x="55" y="657" width="1090" height="62" rx="12" fill="#fff4d6" stroke="#e0b341" stroke-width="2"/>
+<text x="80" y="683" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#624b0b">Concept visual only — not a fabrication-ready PCB.</text>
+<text x="80" y="706" font-family="Arial,sans-serif" font-size="16" fill="#624b0b">Match exact DevKit pin spacing, connector orientation, clearances, and routing before manufacture.</text>
+</svg>
