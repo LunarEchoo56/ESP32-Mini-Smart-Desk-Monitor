@@ -41,6 +41,15 @@ bool wifiStarted = false;
 bool ntpConfigured = false;
 bool timeSynced = false;
 
+bool readValidSystemTime(struct tm* timeInfo) {
+  // Read the clock directly instead of calling getLocalTime(), whose default
+  // behaviour can wait several seconds while the clock is not synchronized.
+  time_t now;
+  time(&now);
+  localtime_r(&now, timeInfo);
+  return (timeInfo->tm_year + 1900 >= 2024);
+}
+
 void startWiFi() {
   WiFi.mode(WIFI_STA);
   WiFi.setAutoReconnect(true);
@@ -77,11 +86,10 @@ void maintainNetworkTime() {
     Serial.println("SNTP time synchronization requested.");
   }
 
-  // A zero timeout prevents the display loop from blocking while time is unavailable.
   if (!timeSynced && now - lastTimeCheck >= TIME_CHECK_INTERVAL_MS) {
     lastTimeCheck = now;
     struct tm timeInfo;
-    if (getLocalTime(&timeInfo, 0) && (timeInfo.tm_year + 1900 >= 2024)) {
+    if (readValidSystemTime(&timeInfo)) {
       timeSynced = true;
       Serial.println("System time synchronized.");
     }
@@ -102,7 +110,7 @@ void drawDisplay() {
   display.setTextColor(SSD1306_WHITE);
 
   struct tm timeInfo;
-  if (timeSynced && getLocalTime(&timeInfo, 0)) {
+  if (timeSynced && readValidSystemTime(&timeInfo)) {
     char timeBuffer[9];
     char dateBuffer[11];
 

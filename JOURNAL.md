@@ -7,7 +7,7 @@
 ### What the repository contains
 
 - An Arduino-style ESP32 sketch targeting a 128×64 SSD1306 I²C OLED and a DHT22 sensor.
-- A PlatformIO project configuration.
+- A PlatformIO project configuration and automated compile workflow.
 - A wiring schematic and a generic OpenSCAD enclosure reference.
 - A BOM describing intended parts; exact purchased/installed component models are not recorded.
 - No verified build photo. The only supplied reference frame reviewed shows a portrait-oriented screen, while the checked-in firmware draws a landscape display layout. It was omitted from the README rather than presented as test evidence.
@@ -18,8 +18,8 @@
 - Removed specific claims of measured sensor accuracy, a 12-hour run, reconnection tests and phone-to-clock comparison. No serial logs, test data or other reproducible evidence for those results were included.
 - Removed a code screenshot that did not match the current sketch and a BOM screenshot whose OLED size/details conflicted with the documented configuration.
 - Removed a decorative PCB graphic that was not a routed board design, a duplicate confusing wiring graphic, and a stale ZIP package that could diverge from the source tree.
-- Replaced blocking network/time polling in the firmware with scheduled reconnect attempts and zero-timeout clock reads, so waiting for time does not stall display updates.
-- Replaced the oversized display aperture in the generic enclosure model with a smaller reference opening.
+- Reworked Wi-Fi retries and system-clock polling to avoid repeatedly blocking for network connection or valid time while trying to refresh the display.
+- Replaced the oversized display aperture in the generic enclosure model and corrected the cavity height to retain the specified bottom wall.
 - Removed the previous baseplate STL after review showed it was not a closed, watertight solid.
 - Added explicit status, build-validation and attribution notes to the README and submission checklist.
 
