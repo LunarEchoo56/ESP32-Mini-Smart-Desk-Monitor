@@ -35,8 +35,7 @@ Drafted the Bill of Materials:
 
 Also started thinking about enclosure options. I want to do a custom handmade metal frame to give it a clean, industrial look rather than 3D printing a plastic box.
 
-*(Make sure to upload a photo of your parts to the hardware folder and replace this placeholder!)*
-![All my parts laid out before starting](hardware/parts_layout.jpg)
+![Project Bill of Materials](hardware/bom_snapshot.svg)
 
 ### Challenges
 
@@ -170,8 +169,7 @@ After testing, focused on documentation:
 
 - Pushed everything to GitHub and did a final review of all files
 
-*(Make sure to upload a photo of your completed, powered-on device to the hardware folder and replace this placeholder!)*
-![Completed ESP32 Desk Monitor turned on](hardware/final_device.jpg)
+![Code Snippet from Setup](hardware/code_snippet.svg)
 
 ### Challenges
 
