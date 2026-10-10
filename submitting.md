@@ -1,21 +1,25 @@
-# Submission Assets
+# Submission Readiness
 
-This repository contains the documentation/assets requested for hardware-project submission.
+This index describes what is actually present in the repository. It does not certify that the hardware was built or that the firmware was tested.
 
-## Images
+## Included
 
-- `hardware/concept_render.svg` — concept render of the assembled device
-- `hardware/wiring_diagram.svg` — reference wiring/schematic diagram
+- `src/esp32_smart_desk_monitor.ino` — firmware source.
+- `platformio.ini` — PlatformIO project configuration.
+- `hardware/BOM.csv` — intended parts list with reference notes.
+- `hardware/schematic.svg` — firmware pin-connection reference.
+- `hardware/enclosure/desk_monitor_reference.scad` — generic editable enclosure model.
+- `hardware/enclosure/model_preview.svg` — illustration of the generic enclosure dimensions.
+- `.github/workflows/platformio.yml` — automated compile check for source changes.
 
-The concept render is an illustration, not a photograph of the physical prototype.
+## Not included / not verified
 
-## Bill of Materials
+- No routed PCB, KiCad project, Gerbers or drill files.
+- No successful PlatformIO build/upload log in the repository yet.
+- No serial log proving Wi-Fi or time synchronization.
+- No recorded sensor-accuracy comparison or long-run test.
+- No verified photograph of this repository's firmware running on the pictured hardware.
+- No measured fit check or print test for the reference enclosure.
+- No documented provenance for the project concept or any adapted material.
 
-- `hardware/BOM.csv` contains the BOM, quantities, notes, and manufacturer/reference links.
-
-## Hardware design files
-
-- `hardware/enclosure/desk_monitor_reference.scad` — editable OpenSCAD enclosure reference
-- `hardware/enclosure/reference_baseplate.stl` — printable STL reference baseplate
-
-These are reference designs. Exact enclosure dimensions should be adjusted to the physical prototype before fabrication.
+Only mark these items complete after obtaining real evidence. See [JOURNAL.md](JOURNAL.md) for the audit notes and [ATTRIBUTION.md](ATTRIBUTION.md) for provenance status.

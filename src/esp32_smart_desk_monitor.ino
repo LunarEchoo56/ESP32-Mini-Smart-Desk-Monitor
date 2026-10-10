@@ -5,6 +5,7 @@
 #include <Adafruit_SSD1306.h>
 #include <DHT.h>
 
+// Use local credentials for development. Do not commit real Wi-Fi credentials.
 const char* WIFI_SSID = "YOUR_WIFI_NAME";
 const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
 
@@ -16,52 +17,84 @@ const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
 #define OLED_RESET -1
 #define OLED_ADDRESS 0x3C
 
-const long GMT_OFFSET_SEC = 19800;
-const int DAYLIGHT_OFFSET_SEC = 0;
+// Fixed India Standard Time offset (UTC+05:30; no daylight-saving adjustment).
+constexpr long GMT_OFFSET_SEC = 19800;
+constexpr int DAYLIGHT_OFFSET_SEC = 0;
 
-const unsigned long SENSOR_INTERVAL_MS = 2000;
-const unsigned long DISPLAY_INTERVAL_MS = 250;
-const unsigned long NTP_RESYNC_INTERVAL_MS = 6UL * 60UL * 60UL * 1000UL;
+constexpr unsigned long SENSOR_INTERVAL_MS = 2000;
+constexpr unsigned long DISPLAY_INTERVAL_MS = 250;
+constexpr unsigned long WIFI_RETRY_INTERVAL_MS = 15000;
+constexpr unsigned long TIME_CHECK_INTERVAL_MS = 1000;
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 DHT dht(DHTPIN, DHTTYPE);
 
 float temperatureC = NAN;
 float humidity = NAN;
+
 unsigned long lastSensorRead = 0;
 unsigned long lastDisplayUpdate = 0;
-unsigned long lastNtpSync = 0;
+unsigned long lastWiFiAttempt = 0;
+unsigned long lastTimeCheck = 0;
 
-void connectWiFi() {
-  if (WiFi.status() == WL_CONNECTED) return;
+bool wifiStarted = false;
+bool ntpConfigured = false;
+bool timeSynced = false;
 
+void startWiFi() {
   WiFi.mode(WIFI_STA);
+  WiFi.setAutoReconnect(true);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
-  unsigned long start = millis();
-  while (WiFi.status() != WL_CONNECTED && millis() - start < 15000) {
-    delay(250);
-  }
+  wifiStarted = true;
+  lastWiFiAttempt = millis();
+  Serial.println("Starting Wi-Fi connection...");
 }
 
-void syncTime() {
-  configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, "pool.ntp.org", "time.nist.gov");
+void maintainNetworkTime() {
+  const unsigned long now = millis();
 
-  struct tm timeInfo;
-  unsigned long start = millis();
-  while (!getLocalTime(&timeInfo) && millis() - start < 10000) {
-    delay(250);
+  if (WiFi.status() != WL_CONNECTED) {
+    // If Wi-Fi drops, reconfigure SNTP after the next successful connection.
+    ntpConfigured = false;
+
+    if (!wifiStarted) {
+      startWiFi();
+    } else if (now - lastWiFiAttempt >= WIFI_RETRY_INTERVAL_MS) {
+      Serial.println("Wi-Fi is disconnected; retrying...");
+      WiFi.reconnect();
+      lastWiFiAttempt = now;
+    }
+    return;
   }
 
-  lastNtpSync = millis();
+  if (!ntpConfigured) {
+    configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC,
+               "pool.ntp.org", "time.nist.gov");
+    ntpConfigured = true;
+    Serial.print("Wi-Fi connected. IP: ");
+    Serial.println(WiFi.localIP());
+    Serial.println("SNTP time synchronization requested.");
+  }
+
+  // A zero timeout prevents the display loop from blocking while time is unavailable.
+  if (!timeSynced && now - lastTimeCheck >= TIME_CHECK_INTERVAL_MS) {
+    lastTimeCheck = now;
+    struct tm timeInfo;
+    if (getLocalTime(&timeInfo, 0) && (timeInfo.tm_year + 1900 >= 2024)) {
+      timeSynced = true;
+      Serial.println("System time synchronized.");
+    }
+  }
 }
 
 void readSensor() {
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
+  const float newHumidity = dht.readHumidity();
+  const float newTemperature = dht.readTemperature();
 
-  if (!isnan(t)) temperatureC = t;
-  if (!isnan(h)) humidity = h;
+  // Retain the last valid value if a sensor read fails.
+  if (!isnan(newTemperature)) temperatureC = newTemperature;
+  if (!isnan(newHumidity)) humidity = newHumidity;
 }
 
 void drawDisplay() {
@@ -69,7 +102,7 @@ void drawDisplay() {
   display.setTextColor(SSD1306_WHITE);
 
   struct tm timeInfo;
-  if (getLocalTime(&timeInfo)) {
+  if (timeSynced && getLocalTime(&timeInfo, 0)) {
     char timeBuffer[9];
     char dateBuffer[11];
 
@@ -124,34 +157,20 @@ void setup() {
   display.setCursor(0, 0);
   display.println("Smart Desk Monitor");
   display.println();
-  display.println("Connecting Wi-Fi...");
+  display.println("Starting...");
   display.display();
 
-  connectWiFi();
-
-  if (WiFi.status() == WL_CONNECTED) {
-    Serial.print("Wi-Fi connected. IP: ");
-    Serial.println(WiFi.localIP());
-    syncTime();
-  } else {
-    Serial.println("Wi-Fi connection failed. Temperature/humidity will still work.");
-  }
-
+  startWiFi();
   readSensor();
+  lastSensorRead = millis();
   drawDisplay();
+  lastDisplayUpdate = millis();
 }
 
 void loop() {
   const unsigned long now = millis();
 
-  if (WiFi.status() != WL_CONNECTED) {
-    connectWiFi();
-    if (WiFi.status() == WL_CONNECTED) syncTime();
-  }
-
-  if (WiFi.status() == WL_CONNECTED && now - lastNtpSync >= NTP_RESYNC_INTERVAL_MS) {
-    syncTime();
-  }
+  maintainNetworkTime();
 
   if (now - lastSensorRead >= SENSOR_INTERVAL_MS) {
     lastSensorRead = now;

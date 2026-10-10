@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#f4f7fb"/>
+<text x="56" y="58" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#182840">Reference enclosure</text>
+<text x="56" y="94" font-family="Arial,sans-serif" font-size="19" fill="#52637a">Illustrative drawing based on desk_monitor_reference.scad • units in mm</text>
+<!-- Outer shell: isometric faces -->
+<polygon points="280,250 700,185 930,305 510,375" fill="#e1e8f0" stroke="#3a4b60" stroke-width="4"/>
+<polygon points="280,250 510,375 510,555 280,430" fill="#9aabba" stroke="#3a4b60" stroke-width="4"/>
+<polygon points="510,375 930,305 930,485 510,555" fill="#6f8297" stroke="#3a4b60" stroke-width="4"/>
+<!-- Open cavity -->
+<polygon points="315,260 695,210 890,310 508,357" fill="#c3cedb" stroke="#53677e" stroke-width="3"/>
+<polygon points="315,260 508,357 508,515 315,410" fill="#8d9fb1" stroke="#53677e" stroke-width="3"/>
+<polygon points="508,357 890,310 890,438 508,515" fill="#73869b" stroke="#53677e" stroke-width="3"/>
+<!-- Small front OLED aperture -->
+<polygon points="590,423 690,407 690,445 590,462" fill="#18232f" stroke="#d9e2ec" stroke-width="3"/>
+<polygon points="603,430 677,418 677,438 603,451" fill="#48b8ff"/>
+<text x="962" y="326" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#182840">Open top</text>
+<path d="M942 332 L868 333" fill="none" stroke="#52637a" stroke-width="2"/>
+<text x="72" y="530" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#182840">OLED window</text>
+<path d="M220 524 L580 456" fill="none" stroke="#52637a" stroke-width="2"/>
+<text x="72" y="566" font-family="Arial,sans-serif" font-size="17" fill="#52637a">Approximate aperture; check the exact module before fabrication.</text>
+<rect x="56" y="625" width="1088" height="54" rx="12" fill="#fff2d9" stroke="#deb45a" stroke-width="2"/>
+<text x="80" y="658" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#654b16">Reference concept only — not a measured fit or an exported CAD render.</text>
+</svg>

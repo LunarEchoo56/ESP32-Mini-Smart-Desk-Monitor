@@ -1,57 +1,57 @@
-// ESP32 Mini Smart Desk Monitor - reference enclosure
-// IMPORTANT: This is a generic reference model, not a scan or measurement of the physical prototype.
-// Adjust dimensions to the actual OLED/ESP32 boards before fabrication.
-//
-// Units: mm
+// ESP32 Mini Smart Desk Monitor — generic enclosure reference
+// This is a starting point, not a measured model of any photographed device.
+// Check your exact OLED module, ESP32 board, sensor, and USB connector before printing.
+// Units: millimetres.
 
-$fn = 48;
+$fn = 64;
 
-// Overall reference dimensions
-outer_w = 110;
+outer_w = 90;
 outer_d = 55;
-outer_h = 28;
-wall = 2.5;
+outer_h = 35;
+wall = 2.4;
+corner_r = 3;
 
-// Front display opening
-oled_w = 70;
-oled_h = 38;
-oled_z = 4;
+// Approximate display opening for a small 128x64 OLED module.
+display_opening_w = 28;
+display_opening_h = 14;
+display_center_z = 20;
 
-// Sensor opening
-sensor_d = 8;
-sensor_x = 38;
-
-// Cable opening
-usb_w = 14;
-usb_h = 8;
-usb_z = 8;
+// Side openings; verify against the chosen sensor/module/USB connector.
+sensor_hole_d = 6;
+sensor_hole_y = 12;
+sensor_hole_z = 25;
+usb_opening_w = 15; // along Y
+usb_opening_h = 8;  // along Z
+usb_opening_y = -10;
+usb_opening_z = 8;
 
 module rounded_box(w, d, h, r) {
     minkowski() {
-        cube([w-2*r, d-2*r, h-2*r], center=true);
+        cube([w - 2*r, d - 2*r, h - 2*r], center=true);
         cylinder(r=r, h=2*r, center=true);
     }
 }
 
 difference() {
-    // Outer shell
+    // Outer shell, with a bottom at Z=0.
     translate([0, 0, outer_h/2])
-        rounded_box(outer_w, outer_d, outer_h, 4);
+        rounded_box(outer_w, outer_d, outer_h, corner_r);
 
-    // Hollow interior
+    // Hollow interior; leaves the specified bottom wall and is open at the top.
     translate([0, 0, wall + (outer_h-wall)/2])
-        rounded_box(outer_w-2*wall, outer_d-2*wall, outer_h, 2.5);
+        rounded_box(outer_w-2*wall, outer_d-2*wall, outer_h-wall,
+                    max(0.8, corner_r-wall));
 
-    // OLED/front opening
-    translate([0, -outer_d/2-0.1, oled_z + oled_h/2])
-        cube([oled_w, wall+1, oled_h], center=true);
+    // OLED window on the front (negative-Y) face.
+    translate([0, -outer_d/2-0.1, display_center_z])
+        cube([display_opening_w, wall+1, display_opening_h], center=true);
 
-    // DHT airflow hole
-    translate([sensor_x-outer_w/2, -outer_d/2-0.1, oled_z/2])
-        rotate([90,0,0])
-            cylinder(d=sensor_d, h=wall+2, center=true);
+    // Side opening for an external temperature/humidity sensor.
+    translate([outer_w/2+0.1, sensor_hole_y, sensor_hole_z])
+        rotate([0, 90, 0])
+            cylinder(d=sensor_hole_d, h=wall+1, center=true);
 
-    // Rear/side USB cable opening
-    translate([outer_w/2+0.1, 0, usb_z])
-        cube([wall+1, usb_w, usb_h], center=true);
+    // USB access on the right-hand side.
+    translate([outer_w/2+0.1, usb_opening_y, usb_opening_z])
+        cube([wall+1, usb_opening_w, usb_opening_h], center=true);
 }

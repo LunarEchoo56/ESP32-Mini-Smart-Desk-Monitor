@@ -1,187 +1,144 @@
 # ESP32 Mini Smart Desk Monitor
 
-A compact ESP32 desk display that combines a Wi-Fi-synchronized clock with live temperature and humidity readings on an OLED screen.
+Firmware and reference hardware documentation for an ESP32-based desk display intended to show network-synchronized time and temperature/humidity readings on a 128×64 I²C OLED.
 
-## Hardware visuals
+## Current status
 
-| **Powered-on build photo** | **PCB layout (reference concept)** |
-|---|---|
-| ![Powered-on prototype; frame extracted from the project video](hardware/build_photo.webp) | ![Reference PCB carrier layout](hardware/pcb_layout.svg) |
-| Actual prototype photo from the attached project video. | Concept-only layout; it is **not a fabrication-ready PCB** and is not claimed to be installed in the photographed build. |
-| **Wiring schematic** | **3D enclosure model (reference)** |
-| ![ESP32, OLED, and DHT wiring schematic](hardware/schematic.svg) | ![OpenSCAD reference enclosure model preview](hardware/enclosure/model_preview.webp) |
-| Pin assignments match the firmware below. See also the [wiring diagram](hardware/wiring_diagram.svg). | Preview rendered from the editable OpenSCAD file; dimensions are generic and were not measured from the handmade metal frame. |
+This repository contains firmware source, a PlatformIO configuration, a wiring schematic, and a generic OpenSCAD enclosure model. **A successful hardware test is not documented here.** The repository does not include a build log, serial capture, sensor comparison record, or reproducible test evidence.
 
-## Problem solved
+The firmware assumes an SSD1306 128×64 I²C display and a DHT22 sensor connected as shown below. Verify the actual parts and pin labels before wiring or powering anything.
 
-A normal desk clock only shows the time, while checking temperature and humidity usually requires a separate thermometer/hygrometer or opening an app. This project combines those everyday readings into one small, USB-powered device that can sit on a desk, workstation, gaming setup, or dashboard.
+## Visual references
 
-## Features
+![Reference enclosure illustration](hardware/enclosure/model_preview.svg)
 
-- Wi-Fi-synchronized clock using NTP
-- Live temperature monitoring
-- Live humidity monitoring
-- 128×64 I2C OLED display
-- USB powered
-- Custom handmade metal frame
-- Simple firmware that can be expanded with more sensors and features
+*Illustrative view of the generic OpenSCAD enclosure; it has not been measured against a physical unit.*
 
-## Hardware
+![ESP32, OLED and DHT22 wiring schematic](hardware/schematic.svg)
 
-- ESP32 development board
-- 0.96-inch SSD1306 128×64 I2C OLED
-- DHT11 or DHT22 temperature/humidity sensor
-- Jumper wires
-- USB cable/power source
-- Custom metal frame/enclosure
+**Build photo:** No verified build photo is included. The only supplied video frame inspected during review shows a portrait-oriented display, while the firmware in this repository draws a landscape 128×64 layout. It was left out rather than presented as proof of this firmware running.
 
-## Bill of Materials
+## Features intended by the firmware
 
-The complete BOM is available in [`hardware/BOM.csv`](hardware/BOM.csv).
+- Request network time using SNTP over Wi-Fi.
+- Display time and date on an SSD1306 128×64 I²C OLED.
+- Read temperature and relative humidity from a DHT22.
+- Retain the last valid sensor values when a read fails.
+- Continue displaying the system clock after a successful sync, including during a later network interruption.
 
-| Part | Qty | Notes |
+The ESP32 is not paired with a separate external RTC in this design. Timekeeping and sensor behaviour still need to be verified on the target hardware.
+
+## Hardware and pin map
+
+| Module | Pin | ESP32 connection |
+|---|---|---|
+| SSD1306 OLED | VCC | 3.3 V |
+| SSD1306 OLED | GND | GND |
+| SSD1306 OLED | SDA | GPIO 21 |
+| SSD1306 OLED | SCL | GPIO 22 |
+| DHT22 | VCC | 3.3 V |
+| DHT22 | GND | GND |
+| DHT22 | DATA | GPIO 4 |
+
+Use a common ground. DHT breakout boards often include a DATA pull-up resistor; a bare sensor may require one. Module pin order and voltage tolerance vary, so confirm your component's datasheet rather than relying on wire colours.
+
+## Bill of materials
+
+The table below describes the intended configuration, not proof that each part was purchased or used. See [hardware/BOM.csv](hardware/BOM.csv) for notes and reference documentation.
+
+| Part | Qty. | Notes |
 |---|---:|---|
-| ESP32 development board | 1 | ESP32 DevKitC-style reference |
-| SSD1306 128×64 I2C OLED | 1 | Verify module address before assembly |
-| DHT22 temperature/humidity sensor | 1 | DHT11 is supported by changing one firmware setting |
-| 4.7K–10K resistor | 1 | Needed for a bare DHT22; many modules already include a pull-up |
-| Jumper wires | ~8 | Prototype wiring |
-| USB cable | 1 | Connector depends on ESP32 board revision |
-| Metal enclosure material | 1 set | Handmade/custom; measure your actual prototype |
+| ESP32 Arduino-compatible development board | 1 | Exact board model is not recorded |
+| SSD1306 128×64 I²C OLED module | 1 | Confirm address and module dimensions |
+| DHT22 temperature/humidity sensor | 1 | Firmware defaults to DHT22 |
+| Pull-up resistor | 1 optional | Only if required by the bare sensor/module |
+| Jumper wires | 1 set | For prototype wiring |
+| USB cable | 1 | Connector depends on the board |
+| Enclosure material | As needed | Model is generic and unvalidated against parts |
 
-## Hardware design files
-
-- [`pcb_layout.svg`](hardware/pcb_layout.svg) — PCB carrier-layout concept; not fabrication-ready.
-- [`schematic.svg`](hardware/schematic.svg) — wiring schematic showing the firmware pin assignments.
-- [`wiring_diagram.svg`](hardware/wiring_diagram.svg) — existing editable/vector wiring diagram.
-- [`concept_render.svg`](hardware/concept_render.svg) — concept illustration, not a physical prototype photo.
-- [`desk_monitor_reference.scad`](hardware/enclosure/desk_monitor_reference.scad) — editable OpenSCAD enclosure reference.
-- [`model_preview.webp`](hardware/enclosure/model_preview.webp) — preview rendered from the OpenSCAD file.
-- [`reference_baseplate.stl`](hardware/enclosure/reference_baseplate.stl) — simple printable reference baseplate.
-- [`build_photo.webp`](hardware/build_photo.webp) — powered-on build photo extracted from the attached project video.
-
-The OpenSCAD/STL enclosure is a generic reference model. The handmade metal frame in the build photo was not measured to produce this model. The PCB image is a visual layout concept only; there is no claim that this PCB was manufactured or used in the photographed prototype.
-
-## Wiring
-
-### OLED (SSD1306 I2C)
-
-| OLED | ESP32 |
-|---|---|
-| VCC | 3.3V |
-| GND | GND |
-| SDA | GPIO 21 |
-| SCL | GPIO 22 |
-
-### DHT sensor
-
-| DHT | ESP32 |
-|---|---|
-| VCC | 3.3V |
-| GND | GND |
-| DATA | GPIO 4 |
-
-Many DHT sensor modules already include the required pull-up resistor. For a bare sensor, use the resistor recommended by its datasheet.
-
-## Software setup
-
-### Arduino IDE
-
-Install the ESP32 board package and these libraries:
-
-- Adafruit SSD1306
-- Adafruit GFX Library
-- DHT sensor library by Adafruit
-- Adafruit Unified Sensor
-
-Open `src/esp32_smart_desk_monitor.ino`, enter your Wi-Fi credentials, select your ESP32 board, and upload.
+## Build and upload
 
 ### PlatformIO
 
-This repository includes `platformio.ini`. Open the project in PlatformIO and build/upload normally.
+1. Install VS Code and the PlatformIO extension.
+2. Open this repository as a PlatformIO project.
+3. In [src/esp32_smart_desk_monitor.ino](src/esp32_smart_desk_monitor.ino), set `WIFI_SSID` and `WIFI_PASSWORD` locally. Do not commit real credentials.
+4. Confirm the board, display address and sensor type match your hardware.
+5. Build the project, connect the ESP32, upload, and inspect the serial monitor at 115200 baud.
+
+A GitHub Actions workflow is configured to run a PlatformIO build on pushes and pull requests. A green workflow only verifies compilation; it does not verify that the physical hardware works.
+
+### Libraries
+
+The PlatformIO configuration declares:
+
+- Adafruit SSD1306
+- Adafruit GFX Library
+- DHT sensor library
+- Adafruit Unified Sensor
+
+## Reference enclosure
+
+- [OpenSCAD source](hardware/enclosure/desk_monitor_reference.scad)
+- [SVG reference illustration](hardware/enclosure/model_preview.svg)
+
+The enclosure is a generic starting point, not a measured replica of a physical device or a confirmed fit for any specific board. Before fabrication, check display aperture, board clearance, sensor airflow, connector access, screw features and wall thickness against the exact parts.
+
+To export an STL locally with OpenSCAD:
+
+```sh
+openscad -o desk_monitor_reference.stl hardware/enclosure/desk_monitor_reference.scad
+```
+
+No fabrication-ready PCB is included: there is no routed board layout, KiCad project, Gerber set or drill file. The wiring schematic is a connection reference, not a PCB design.
 
 ## Configuration
 
-At the top of the sketch:
-
-```cpp
-const char* WIFI_SSID = "YOUR_WIFI_NAME";
-const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
-```
-
-Default settings:
+The source defaults are:
 
 - OLED address: `0x3C`
-- I2C SDA: GPIO 21
-- I2C SCL: GPIO 22
-- DHT data: GPIO 4
-- DHT type: DHT22
-- Time zone: Asia/Kolkata (UTC+5:30)
+- I²C SDA: GPIO 21
+- I²C SCL: GPIO 22
+- DHT DATA: GPIO 4
+- DHT type: `DHT22`
+- Fixed time offset: UTC+05:30
 
-For a DHT11, change:
+If your sensor is a DHT11, change `#define DHTTYPE DHT22` to `#define DHTTYPE DHT11`. Confirm the display I²C address with an I²C scanner if the display does not initialize.
 
-```cpp
-#define DHTTYPE DHT22
-```
+## Validation checklist
 
-to:
+Before describing this as a completed build, record evidence for:
 
-```cpp
-#define DHTTYPE DHT11
-```
+- [ ] Firmware compiles for the exact ESP32 board.
+- [ ] OLED initializes at the selected I²C address and orientation.
+- [ ] SNTP obtains a valid time.
+- [ ] DHT sensor readings update at an appropriate interval.
+- [ ] Wi-Fi loss/reconnection behaviour is observed.
+- [ ] Enclosure openings and clearances fit the actual components.
+- [ ] A real photo of the hardware running this exact firmware is added, if available.
 
-## How it works
+## Provenance and licence
 
-1. The ESP32 connects to Wi-Fi.
-2. It synchronizes local time from an NTP server.
-3. The DHT sensor provides temperature and humidity readings.
-4. The ESP32 refreshes the OLED with the current time, date, temperature, and humidity.
-5. If a sensor read fails, the last valid reading is retained.
+The repository does not yet record the upstream source of the project idea or document whether any elements were adapted from another design. Review [ATTRIBUTION.md](ATTRIBUTION.md) and record the source, author and licence for any reused work before claiming originality or redistributing it. The included MIT licence should not be assumed to override third-party terms.
 
-## Reference component documentation
-
-- [Espressif ESP32-DevKitC documentation](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32/esp32-devkitc/)
-- [Adafruit DHT22](https://www.adafruit.com/product/385)
-- [Adafruit SSD1306 OLED wiring guide](https://learn.adafruit.com/monochrome-oled-breakouts/wiring-128x64-oleds)
-
-## Project structure
+## Repository layout
 
 ```text
 .
-├── README.md
+├── .github/workflows/platformio.yml
+├── .gitignore
+├── ATTRIBUTION.md
+├── JOURNAL.md
 ├── LICENSE
+├── README.md
+├── submitting.md
 ├── platformio.ini
 ├── src/
 │   └── esp32_smart_desk_monitor.ino
-├── hardware/
-│   ├── BOM.csv
-│   ├── build_photo.webp
-│   ├── pcb_layout.svg
-│   ├── schematic.svg
-│   ├── wiring_diagram.svg
-│   ├── concept_render.svg
-│   └── enclosure/
-│       ├── desk_monitor_reference.scad
-│       ├── model_preview.webp
-│       └── reference_baseplate.stl
-└── esp32-mini-smart-desk-monitor.zip
+└── hardware/
+    ├── BOM.csv
+    ├── schematic.svg
+    └── enclosure/
+        ├── desk_monitor_reference.scad
+        └── model_preview.svg
 ```
-
-## Future ideas
-
-- Weather information
-- Air-quality sensor
-- Automatic display brightness
-- Alarm/timer
-- Minimum/maximum temperature history
-- CO₂ monitoring
-- Room-status icons
-- Improved enclosure
-
-## Status
-
-The powered-on prototype is shown in the build photo. The enclosure and additional features are still being improved. The PCB layout and enclosure render in this repository are explicitly reference concepts, not verified fabrication files.
-
-## License
-
-MIT License. See [LICENSE](LICENSE).
